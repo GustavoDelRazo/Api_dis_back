@@ -9,9 +9,7 @@ conn = sqlite3.connect("sql/dispositivos.db")
 app = fastapi.FastAPI()
 
 origins = [
-    "http://localhost:8080",
-    "https://shm-frontend-c3f2dc0fa89c.herokuapp.com",
-    "https://api-contactos-frontend-a3d16e92dede.herokuapp.com"
+    "https://8080-gustavodelr-apidisfront-norcv9c6ear.ws-us106.gitpod.io"
 ]
 
 app.add_middleware(
