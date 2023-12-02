@@ -9,7 +9,7 @@ conn = sqlite3.connect("sql/dispositivos.db")
 app = fastapi.FastAPI()
 
 origins = [
-    "https://8080-gustavodelr-apidisfront-norcv9c6ear.ws-us106.gitpod.io"
+    "https://8080-aldojesusma-iotdevicesf-a4w6rsh4ddx.ws-us106.gitpod.io/"
 ]
 
 app.add_middleware(
@@ -56,9 +56,9 @@ async def get_dispositivo(id: int):
     return dispositivo
 
 @app.put("/dispositivos/{id}")
-async def get_dispositivo(id: int, dispositivo: DispositivoPUT):
-    """Obtiene un contacto por su email."""
-    # Consulta el contacto por su email
+async def put_dispositivo(id: int, dispositivo: DispositivoPUT):
+    """Actualiza un dispositivo por su id."""
+    # Actualiza un dispositivo por su id.
     c = conn.cursor()
     c.execute('UPDATE dispositivos SET valor = ? WHERE id = ?;',
               (dispositivo.valor,id))
