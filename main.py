@@ -14,19 +14,20 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins= ["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 class Dispositivo(BaseModel):
-    id: int
-    dispositivo: str
+    id : int
+    dispositivo : str
     valor: int
 
 class DispositivoPUT(BaseModel):
     valor: int
+
 
 @app.get("/")
 async def root():
@@ -34,43 +35,32 @@ async def root():
 
 @app.get("/dispositivos")
 async def get_all():
-    """Obtiene todos los dispositivos."""
+    """Obtiene todos los contactos."""
     c = conn.cursor()
     c.execute('SELECT * FROM dispositivos;')
     response = []
     for row in c:
-        dispositivo = {"id": row[0], "dispositivo": row[1], "valor": row[2]}
+        dispositivo = {"id":row[0],"dispositivo":row[1], "valor":row[2]}
         response.append(dispositivo)
     return response
 
 @app.get("/dispositivos/{id}")
 async def get_dispositivo(id: int):
-    """Obtiene un dispositivo por su id."""
-    try:
-        # Consulta el dispositivo por su id
-        c = conn.cursor()
-        c.execute('SELECT * FROM dispositivos WHERE id = ?', (id,))
-        dispositivo = None
-        for row in c:
-            dispositivo = {"id": row[0], "dispositivo": row[1], "valor": row[2]}
-        if dispositivo is not None:
-            return dispositivo
-        else:
-            return fastapi.Response(content=f"Dispositivo con ID {id} no encontrado", status_code=-1)
-    except Exception as e:
-        # Manejar la excepción y devolver el código de respuesta -1
-        return fastapi.Response(content=f"Error: {str(e)}", status_code=-1)
-
+    """Obtiene un contacto por su email."""
+    # Consulta el contacto por su email
+    c = conn.cursor()
+    c.execute('SELECT * FROM dispositivos WHERE id = ?', (id,))
+    dispositivo = None
+    for row in c:
+         dispositivo = {"id":row[0],"dispositivo":row[1], "valor":row[2]}
+    return dispositivo
 
 @app.put("/dispositivos/{id}")
-async def put_dispositivo(id: int, dispositivo: DispositivoPUT):
-    """Actualiza un dispositivo por su id."""
-    try:
-        # Actualiza un dispositivo por su id.
-        c = conn.cursor()
-        c.execute('UPDATE dispositivos SET valor = ? WHERE id = ?;', (dispositivo.valor, id))
-        conn.commit()
-        return dispositivo
-    except Exception as e:
-        # Manejar la excepción y devolver el código de respuesta -1
-        return fastapi.Response(content=f"Error: {str(e)}", status_code=-1)
+async def get_dispositivo(id: int, dispositivo: DispositivoPUT):
+    """Obtiene un contacto por su email."""
+    # Consulta el contacto por su email
+    c = conn.cursor()
+    c.execute('UPDATE dispositivos SET valor = ? WHERE id = ?;',
+              (dispositivo.valor,id))
+    conn.commit()
+    return dispositivo
